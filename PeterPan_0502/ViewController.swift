@@ -8,10 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController,UITextFieldDelegate {
+class ViewController: UIViewController,UITextFieldDelegate,UITextViewDelegate {
 
     @IBOutlet weak var textF: UITextField!
     @IBOutlet weak var textCountLabel: UILabel!
+    
+    @IBOutlet weak var textV: UITextView!
+    @IBOutlet weak var textViewCountLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +34,6 @@ class ViewController: UIViewController,UITextFieldDelegate {
         let newLength = text.utf16.count + string.utf16.count - range.length
         textCountLabel.text = "\(newLength)"
         return newLength <= 10 // Bool
-        
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -39,6 +41,16 @@ class ViewController: UIViewController,UITextFieldDelegate {
         self.view.endEditing(true)
         return true
     }
+    
+    //MARK: TextViewDelegate
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
 
+        let newLength = textView.text.characters.count + (text.characters.count - range.length)
+        
+        if  newLength <= 10{
+            textViewCountLabel.text = "\(newLength)"
+        }
+        return newLength <= 10
+    }
 }
 
